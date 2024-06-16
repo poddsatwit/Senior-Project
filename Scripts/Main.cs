@@ -9,7 +9,12 @@ public class GameLoop : MonoBehaviour
     void Start()
     {
         // Initialize game manager
-        gameManager = new GameManager();
+        gameManager = FindObjectOfType<GameManager>();
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager not found in the scene.");
+            return;
+        }
 
         // Define the number of players (with a limit of 6)
         int numberOfPlayers = 0; // This value can be set dynamically

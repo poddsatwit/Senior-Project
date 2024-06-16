@@ -1,40 +1,50 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class GameManager
+public class GameManager : MonoBehaviour
 {
-    public Dictionary<int, Player> Players { get; private set; }
+    private Dictionary<int, Player> players = new Dictionary<int, Player>();
+    private int currentPlayerId;
 
-    public GameManager()
-    {
-        Players = new Dictionary<int, Player>();
-    }
-
+    // Overloaded AddPlayer to take only playerId
     public void AddPlayer(int playerId)
     {
-        if (!Players.ContainsKey(playerId))
+        if (!players.ContainsKey(playerId))
         {
-            Players[playerId] = new Player(playerId);
+            Player newPlayer = new Player(playerId);
+            players.Add(playerId, newPlayer);
         }
     }
 
-    public void AssignItemToPlayer(int playerId, Item item)
+    // Overloaded AddPlayer to take playerId and Player instance
+    public void AddPlayer(int playerId, Player player)
     {
-        if (Players.ContainsKey(playerId))
+        if (!players.ContainsKey(playerId))
         {
-            Players[playerId].ItemInventory.AddItem(item);
+            players.Add(playerId, player);
         }
     }
 
-    public void AssignEventToPlayer(int playerId, Event eventObj)
+    public Player GetPlayer(int playerId)
     {
-        if (Players.ContainsKey(playerId))
-        {
-            Players[playerId].EventInventory.AddItem(eventObj);
-        }
+        players.TryGetValue(playerId, out Player player);
+        return player;
     }
 
-    public override string ToString()
+    public int GetCurrentPlayerId()
     {
-        return $"GameManager with players: {string.Join(", ", Players.Values)}";
+        return currentPlayerId;
     }
+
+    public void SetCurrentPlayerId(int playerId)
+    {
+        currentPlayerId = playerId;
+    }
+
+    public void NextTurn()
+    {
+        // Implement logic to set currentPlayerId to the next player's ID
+    }
+
+    public Dictionary<int, Player> Players => players;
 }

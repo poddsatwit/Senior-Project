@@ -1,20 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Player
+public class Player : MonoBehaviour
 {
-    public int PlayerId { get; private set; }
-    public int Coins { get; set; }
-    public Inventory<Item> ItemInventory { get; private set; }
-    public Inventory<Event> EventInventory { get; private set; }
+    public int PlayerId { get; set; }
 
     public Player(int playerId)
     {
         PlayerId = playerId;
-        Coins = 100; // Initial coin amount for the player
+    }
+    public int Coins { get; set; }
+    public Inventory<Item> ItemInventory { get; private set; }
+    public Inventory<Event> EventInventory { get; private set; }
+
+    void Awake()
+    {
+        Coins = 100;
         ItemInventory = new Inventory<Item>();
         EventInventory = new Inventory<Event>();
+    }
+
+    public void Initialize(int playerId)
+    {
+        PlayerId = playerId;
     }
 
     public override string ToString()
