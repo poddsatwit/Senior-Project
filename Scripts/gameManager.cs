@@ -5,6 +5,20 @@ public class GameManager : MonoBehaviour
 {
     private Dictionary<int, Player> players = new Dictionary<int, Player>();
     private int currentPlayerId;
+    private static GameManager instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Overloaded AddPlayer to take only playerId
     public void AddPlayer(int playerId)
