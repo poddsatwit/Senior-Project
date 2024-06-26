@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private AudioSource audioSource;
     private Animator animator;
     public AudioClip targetSelectedClip;
+    private int[,] puzzle;
 
     void Start()
     {
@@ -135,4 +136,19 @@ public class Player : MonoBehaviour
     {
         animator.SetTrigger("Damage");
     }
+
+    // 8 Puzzle Game
+    public void SetPuzzle(int[,] puzzle)
+    {
+        this.puzzle = puzzle;
+        DisplayPuzzle();
+    }
+    void DisplayPuzzle()
+    {
+        // Display the puzzle to the player
+        // This could involve updating the UI or positioning tile GameObjects
+    }
+
+    // Implement the puzzle-solving logic here
+
 }
