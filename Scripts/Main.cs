@@ -20,11 +20,6 @@ public class GameLoop : MonoBehaviour
         int numberOfPlayers = 0; // This value can be set dynamically
         numberOfPlayers = Mathf.Clamp(numberOfPlayers, 1, 6); // Ensure it's between 1 and 6
 
-        // Add players in a loop
-        for (int i = 1; i <= numberOfPlayers; i++)
-        {
-            gameManager.AddPlayer(i);
-        }
 
         // Initialize turn manager with the list of players
         turnManager = new TurnManager(new List<Player>(gameManager.Players.Values));

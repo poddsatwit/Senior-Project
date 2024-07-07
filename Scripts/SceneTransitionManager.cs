@@ -16,11 +16,6 @@ public class SceneTransitionManager : MonoBehaviour
         }
     }
 
-    public void SetCurrentPlayer(int playerId)
-    {
-        currentPlayerId = playerId;
-    }
-
     public void OpenShop()
     {
         if (gameManager != null && gameManager.GetCurrentPlayerId() == currentPlayerId)

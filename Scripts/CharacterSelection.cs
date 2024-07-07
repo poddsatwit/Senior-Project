@@ -1,48 +1,72 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class CharacterSelection : MonoBehaviour
 {
-    public List<Sprite> characterSprites; // List of available character sprites
-    public List<Button> characterButtons; // Buttons for character selection
-    private Dictionary<int, int> playerSelections; // Store player ID and their selected character index
+    public CharacterDatabase characterDB;
+    public static CharacterSelection instance;
+    public Text nameText;
+    public SpriteRenderer artworkSprite;
 
-    void Start()
+    private int selectedOption; 
+    void Awake()
     {
-        playerSelections = new Dictionary<int, int>();
-
-        // Assign button click events
-        for (int i = 0; i < characterButtons.Count; i++)
-        {
-            int index = i; // Capture the index for the closure
-            characterButtons[i].onClick.AddListener(() => SelectCharacter(index));
-        }
+        instance = this;
     }
 
-    void SelectCharacter(int characterIndex)
+    public void nextCharacter()
     {
-        int playerId = GetCurrentPlayerId(); // Implement a way to get the current player ID
-        if (playerSelections.ContainsKey(playerId))
+        selectedOption++;
+
+        if (selectedOption >= characterDB.characterCount)
         {
-            playerSelections[playerId] = characterIndex;
+            selectedOption = 0;
+        }
+        UpdateCharacter(selectedOption);
+        Save();
+    }
+        public void previousCharacter()
+    {
+        selectedOption--;
+
+        if (selectedOption < 0)
+        {
+            selectedOption = characterDB.characterCount;
+        }
+        UpdateCharacter(selectedOption);
+        Save();
+    }
+
+    private void UpdateCharacter(int selectedOption)
+    {
+        Character character = characterDB.character[selectedOption];
+        artworkSprite.sprite = character.CharacterSprite;
+        nameText.text = character.CharacterName;
+    }
+    void Start()
+    {
+        if(!PlayerPrefs.HasKey("selectedOption"))
+        {
+            selectedOption=0;
         }
         else
         {
-            playerSelections.Add(playerId, characterIndex);
+            Load();
         }
 
-        Debug.Log($"Player {playerId} selected character {characterIndex}");
+        UpdateCharacter(selectedOption);
+        GameManager.Instance.UpdateGameState(GameManager.Gamestate.PlayerTurn);
     }
 
-    public Dictionary<int, int> GetPlayerSelections()
+    private void Load()
     {
-        return playerSelections;
+        selectedOption = PlayerPrefs.GetInt("selectedOption");
     }
-
-    int GetCurrentPlayerId()
+    private void Save()
     {
-        // Implement logic to get the current player ID
-        return 1; // Example placeholder
+        PlayerPrefs.SetInt("selectedOption", selectedOption);
     }
 }

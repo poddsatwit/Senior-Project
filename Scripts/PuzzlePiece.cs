@@ -6,6 +6,7 @@ public class PuzzlePiece : MonoBehaviour
     private int pieceValue;
     private Vector2Int position;
     private PuzzleManager puzzleManager;
+    private Text pieceText;
 
     public void Initialize(int pieceValue, Vector2Int position, PuzzleManager puzzleManager)
     {
@@ -13,8 +14,12 @@ public class PuzzlePiece : MonoBehaviour
         this.position = position;
         this.puzzleManager = puzzleManager;
 
-        // Display the piece value using a Text component or image
-        GetComponentInChildren<Text>().text = pieceValue.ToString();
+        // Find the Text component and set its value
+        pieceText = GetComponentInChildren<Text>();
+        if (pieceText != null)
+        {
+            pieceText.text = pieceValue.ToString();
+        }
     }
 
     void OnMouseDown()
