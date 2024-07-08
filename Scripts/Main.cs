@@ -22,7 +22,7 @@ public class GameLoop : MonoBehaviour
 
 
         // Initialize turn manager with the list of players
-        turnManager = new TurnManager(new List<Player>(gameManager.Players.Values));
+        //turnManager = new TurnManager(new List<Player>(gameManager.Players.Values));
 
         // Example game loop: Run a series of turn cycles
         for (int round = 1; round <= 5; round++) // Example: 5 rounds

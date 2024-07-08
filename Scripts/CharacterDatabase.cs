@@ -1,21 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[System.Serializable]
 public class CharacterDatabase : MonoBehaviour
 {
-    public Character[] character;
+    public List<Character> characters;
 
-    public int characterCount
+    public CharacterDatabase()
     {
-        get
-        {
-            return character.Length;
-        }
+        characters = new List<Character>();
     }
-    public Character getCharacter(int index)
+
+ /*   public void Initialize()
     {
-        return (character[index]);
+        // Example initialization with 4 characters
+        characters.Add(new Character("John", Resources.Load<Sprite>("Visuals/Cowboy.psb")));
+        characters.Add(new Character("Sandy", Resources.Load<Sprite>("Visuals/cowgirl.psb")));
+        characters.Add(new Character("Clint East-Bot", Resources.Load<Sprite>("Visuals/robot.psb")));
+        characters.Add(new Character("Brother", Resources.Load<Sprite>("Visuals/bartender.psb")));
+    } */
+    public int characterCount()
+    {
+    return characters.Count;
+    }
+    public Character GetCharacter(int index)
+    {
+        return characters[index];
     }
 }

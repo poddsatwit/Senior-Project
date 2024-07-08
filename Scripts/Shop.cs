@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop
+public class Shop: MonoBehaviour
 {
     private List<Item> availableItems;
 

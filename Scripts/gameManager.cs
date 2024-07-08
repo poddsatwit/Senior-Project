@@ -2,23 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private Dictionary<int, Player> players = new Dictionary<int, Player>();
+    private PlayerObject player1 = null;
+    private PlayerObject player2 = null;
     private int currentPlayerId;
     private int currentRound = 1; // Track the current round
     private static GameManager instance;
     public Gamestate State;
     public TMP_Text roundText; // Reference to the TMP_Text element to display the round
+    private int playerTurn = 1;
+    private int roundCount = 1;
+    private string victor = "";
 
     public static event Action<Gamestate> Ongamestatechanged;
-
-    private void Start()
-    {
-        UpdateGameState(Gamestate.CharacterSelect);
-    }
-
+    private Character character;
     public static GameManager Instance
     {
         get
@@ -53,8 +53,9 @@ public class GameManager : MonoBehaviour
     {
         MenuScene,
         CharacterSelect,
-        RandomizePlayers,
+        OptionsMenu,
         PlayerTurn,
+        Shop,
         EnemyTurn,
         Minigame1,
         Minigame2,
@@ -72,29 +73,37 @@ public class GameManager : MonoBehaviour
         {
             case Gamestate.MenuScene:
                 HandleMenuScene();
+                Debug.Log("State Change.menu");
+                SceneManager.LoadScene("Scenes/Menu");
                 break;
             case Gamestate.CharacterSelect:
+                SceneManager.LoadScene("Scenes/CharacterSelect");
                 break;
-            case Gamestate.RandomizePlayers:
-                RandomizePlayers();
-                break;
+          //  case Gamestate.OptionsMenu:
+          //      break;
             case Gamestate.PlayerTurn:
-                HandlePlayerTurn();
+                SceneManager.LoadScene("Scenes/PlayerTurn");
+                break;
+                case Gamestate.Shop:
+                SceneManager.LoadScene("Scenes/Shop Scene");
                 break;
             case Gamestate.EnemyTurn:
+                SceneManager.LoadScene("Scenes/PlayerTurn");
                 break;
             case Gamestate.Minigame1:
-                UpdateRound<Minigame1>();
+                SceneManager.LoadScene("Scenes/MinigameTest1");
                 break;
             case Gamestate.Minigame2:
-                UpdateRound<Minigame2>();
+                SceneManager.LoadScene("Scenes/MinigameTest2");
                 break;
             case Gamestate.Minigame3:
-                UpdateRound<Minigame3>();
+                SceneManager.LoadScene("Scenes/MinigameTest3");
                 break;
             case Gamestate.Showdown:
+                SceneManager.LoadScene("Scenes/Showdown");
                 break;
             case Gamestate.Victory:
+                SceneManager.LoadScene("Scenes/Victory");
                 break;
             case Gamestate.Lose:
                 break;
@@ -103,64 +112,6 @@ public class GameManager : MonoBehaviour
         }
         Ongamestatechanged?.Invoke(newstate);
     }
-
-    private void HandlePlayerTurn()
-    {
-        Player currentPlayer = GetPlayer(currentPlayerId);
-        if (currentPlayer != null)
-        {
-            // Trigger the start of the player's turn
-            currentPlayer.StartTurn();
-        }
-    }
-
-    public void EndPlayerTurn()
-    {
-        Player currentPlayer = GetPlayer(currentPlayerId);
-        if (currentPlayer != null)
-        {
-            // End the current player's turn
-            currentPlayer.EndTurn();
-        }
-        NextTurn();
-    }
-
-    public void NextTurn()
-    {
-        currentPlayerId++;
-        if (currentPlayerId > players.Count)
-        {
-            currentPlayerId = 1; // Loop back to the first player
-        }
-        UpdateGameState(Gamestate.PlayerTurn);
-    }
-
-    private void RandomizePlayers()
-    {
-        int numberOfPlayers = 6; // or get this value from your game settings
-        List<int> playerIds = new List<int>();
-        for (int i = 1; i <= numberOfPlayers; i++)
-        {
-            playerIds.Add(i);
-        }
-
-        // Shuffle player IDs for randomization
-        for (int i = 0; i < playerIds.Count; i++)
-        {
-            int temp = playerIds[i];
-            int randomIndex = UnityEngine.Random.Range(i, playerIds.Count);
-            playerIds[i] = playerIds[randomIndex];
-            playerIds[randomIndex] = temp;
-        }
-
-        // Create and add players using the randomized IDs
-        foreach (int playerId in playerIds)
-        {
-            Player newPlayer = CreatePlayerInstance(playerId);
-            AddPlayer(playerId, newPlayer);
-        }
-    }
-
     private Player CreatePlayerInstance(int playerId)
     {
         Player newPlayer = new Player(playerId);
@@ -169,19 +120,6 @@ public class GameManager : MonoBehaviour
     }
 
     // Overloaded AddPlayer to take playerId and Player instance
-    public void AddPlayer(int playerId, Player player)
-    {
-        if (!players.ContainsKey(playerId))
-        {
-            players.Add(playerId, player);
-        }
-    }
-
-    public Player GetPlayer(int playerId)
-    {
-        players.TryGetValue(playerId, out Player player);
-        return player;
-    }
 
     public int GetCurrentPlayerId()
     {
@@ -199,11 +137,11 @@ public class GameManager : MonoBehaviour
         // This could involve setting up UI elements, displaying options, etc.
     }
 
-    private void UpdateRound<T>() where T : MinigameBase
+  /*  private void UpdateRound<T>() where T : MinigameBase
     {
         currentRound++;
         UpdateRoundText();
-    }
+    }*/
 
     public void UpdateRoundText()
     {
@@ -213,5 +151,55 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public Dictionary<int, Player> Players => players;
+    public void setCharacter(Character character)
+    {
+        this.character = character;
+    }
+    public Character getCharacter()
+    {
+        return character;
+    }
+    public void setPlayer1(PlayerObject Player)
+    {
+        this.player1 = Player;
+    }
+
+    //For Demo
+    public PlayerObject getPlayer1()
+    {
+        return this.player1;
+    }
+    public void setPlayer2(PlayerObject Player)
+    {
+        this.player2 = Player;
+    }
+    public PlayerObject getPlayer2()
+    {
+        return this.player2;
+    }
+    public int getPlayerTurn()
+    {
+        return playerTurn;
+    }
+    public void setPlayerTurn(int playerturn)
+    {
+        this.playerTurn = playerturn;
+    }
+    public int getRound()
+    {
+        return roundCount;
+    }
+    public void incrementRound()
+    {
+        this.roundCount++;
+    }
+    public string getVictor()
+    {
+
+        return victor;
+    }
+    public void setVictor(string victor)
+    {
+        this.victor = victor;
+    }
 }

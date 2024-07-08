@@ -216,8 +216,8 @@ public class Player : MonoBehaviour
     }
     private void UpdateCharacter(int selectedOption)
     {
-        Character character = characterDB.character[selectedOption];
-        artworkSprite.sprite = character.CharacterSprite;
+        //Character character = characterDB.character[selectedOption];
+       // artworkSprite.sprite = character.CharacterSprite;
     }
 
 }
