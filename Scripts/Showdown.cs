@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Showdown : MonoBehaviour
 {
@@ -17,11 +18,34 @@ public class Showdown : MonoBehaviour
     [SerializeField] private Text Health;
     private PlayerObject currentPlayer;
     [SerializeField] private Text Damage;
+    [SerializeField] private Button selectCard;
+    [SerializeField] private Text NoCards;
+
     private void Start()
     {
         initializePlayers();
         attackButton.onClick.AddListener(OnAttackButtonClicked);
         endTurnButton.onClick.AddListener(OnEndTurnButtonClicked);
+        selectCard.onClick.AddListener(OnselectCardClicked);
+    }
+
+    private void OnselectCardClicked()
+    {
+        Debug.Log("Card");
+        if(!currentPlayer.hasCard())
+        {
+            NoCards.text = currentPlayer.Name + " has no Wildcards!";
+        }
+        else if(currentPlayer.CardActive)
+        {
+            NoCards.text = currentPlayer.Name + " is already using a Card!";
+        }
+        else
+        {
+            {
+                GameManager.Instance.UpdateGameState(GameManager.Gamestate.WildcardSelection);
+            }
+        }
     }
 
     private void OnAttackButtonClicked()

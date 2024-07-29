@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         OptionsMenu,
         PlayerTurn,
         Shop,
+        WildcardSelection,
         EnemyTurn,
         Minigame1,
         Minigame2,
@@ -86,6 +87,9 @@ public class GameManager : MonoBehaviour
                 break;
                 case Gamestate.Shop:
                 SceneManager.LoadScene("Scenes/Shop Scene");
+                break;
+            case Gamestate.WildcardSelection:
+                SceneManager.LoadScene("Scenes/WildcardSelection");
                 break;
             case Gamestate.EnemyTurn:
                 SceneManager.LoadScene("Scenes/PlayerTurn");

@@ -10,6 +10,9 @@ public class PlayerObject
     public int Coins;
     public int Ammo;
     public int Health;
+    public List<Card> Cardlist;
+    public bool CardActive;
+    public int ActiveCardIndex;
     public PlayerObject(Sprite sprite, string Name, int Coins, int Ammo, int Health)
     {
         this.sprite = sprite;
@@ -17,5 +20,14 @@ public class PlayerObject
         this.Coins = Coins;
         this.Ammo = Ammo;
         this.Health = Health;
+        Cardlist = new List<Card> ();
+        CardActive = false;
+        ActiveCardIndex = -1;
     }
+
+    public bool hasCard()
+    {
+        return Cardlist.Count != 0;
+    }
+
 }

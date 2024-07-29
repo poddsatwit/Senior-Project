@@ -8,14 +8,17 @@ public class PlayerTurn : MonoBehaviour
 {
     [SerializeField] private Button shopButton;
     [SerializeField] private Button endTurnButton;
-    // [SerializeField] private Player Player1;
     [SerializeField] private SpriteRenderer playersprite;
     [SerializeField] private SpriteRenderer enemysprite;
-
     [SerializeField] private Text roundText;
     [SerializeField] private Text Coins;
     [SerializeField] private Text Ammo;
     [SerializeField] private GameObject Health;
+    public GameObject heartPrefab;
+    public Transform heartsContainer;
+    private List<GameObject> hearts = new List<GameObject>();
+    private PlayerObject currentPlayer;
+    [SerializeField] private Text NoCards;
 
     private void Start()
     {
@@ -23,6 +26,19 @@ public class PlayerTurn : MonoBehaviour
         roundText.text = "Round: " + GameManager.Instance.getRound();
         shopButton.onClick.AddListener(OnShopButtonClicked);
         endTurnButton.onClick.AddListener(OnEndTurnButtonClicked);
+    }
+    private void OnselectCardClicked()
+    {
+        if (!currentPlayer.hasCard())
+        {
+            NoCards.text = currentPlayer.Name + " has no Wildcards!";
+        }
+        else
+        {
+            {
+                GameManager.Instance.UpdateGameState(GameManager.Gamestate.WildcardSelection);
+            }
+        }
     }
 
     private void initializePlayers()
@@ -86,5 +102,10 @@ public class PlayerTurn : MonoBehaviour
     private void OnShopButtonClicked()
     {
         GameManager.Instance.UpdateGameState(GameManager.Gamestate.Shop);
+    }
+    void AddHeart()
+    {
+        GameObject newHeart = Instantiate(heartPrefab, heartsContainer);
+        hearts.Add(newHeart);
     }
 }
