@@ -13,10 +13,9 @@ public class PlayerTurn : MonoBehaviour
     [SerializeField] private Text roundText;
     [SerializeField] private Text Coins;
     [SerializeField] private Text Ammo;
-    [SerializeField] private GameObject Health;
+    [SerializeField] private Text Health;
     public GameObject heartPrefab;
     public Transform heartsContainer;
-    private List<GameObject> hearts = new List<GameObject>();
     private PlayerObject currentPlayer;
     [SerializeField] private Text NoCards;
 
@@ -48,13 +47,14 @@ public class PlayerTurn : MonoBehaviour
             if (GameManager.Instance.getPlayer1() == null)
             {
                 Character char1 = GameManager.Instance.getCharacter();
-                PlayerObject play1 = new PlayerObject(char1.sprite, char1.Charactername, 3, 0, 3);
+                PlayerObject play1 = new PlayerObject(char1.sprite, char1.Charactername, 10, 0, 3);
                 GameManager.Instance.setPlayer1(play1);
             }
             PlayerObject playerObj1 = GameManager.Instance.getPlayer1();
             playersprite.sprite = playerObj1.sprite;
             Coins.text = "Coins: " + playerObj1.Coins;
             Ammo.text = "Ammo: " + playerObj1.Ammo;
+            Health.text = "Health: " + playerObj1.Health;
         }
         else
         {
@@ -67,6 +67,7 @@ public class PlayerTurn : MonoBehaviour
             playersprite.sprite = enemysprite.sprite;
             Coins.text = "Coins: " + playerObj2.Coins;
             Ammo.text = "Ammo: " + playerObj2.Ammo;
+            Health.text = "Health: " + playerObj2.Health;
             enemysprite.sprite = GameManager.Instance.getPlayer1().sprite;
         }
         
@@ -102,10 +103,5 @@ public class PlayerTurn : MonoBehaviour
     private void OnShopButtonClicked()
     {
         GameManager.Instance.UpdateGameState(GameManager.Gamestate.Shop);
-    }
-    void AddHeart()
-    {
-        GameObject newHeart = Instantiate(heartPrefab, heartsContainer);
-        hearts.Add(newHeart);
     }
 }

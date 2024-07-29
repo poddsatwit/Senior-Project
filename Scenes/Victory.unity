@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VictoryTxt: {fileID: 1307648434}
+  mainVicTxt: {fileID: 1970262355}
 --- !u!1 &837513311
 GameObject:
   m_ObjectHideFlags: 0

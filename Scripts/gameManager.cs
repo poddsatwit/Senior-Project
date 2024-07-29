@@ -18,7 +18,10 @@ public class GameManager : MonoBehaviour
     private string victor = "";
 
     public static event Action<Gamestate> Ongamestatechanged;
+    public bool reflectDamage = false;
     private Character character;
+    private Card player1ActiveCard;
+    private Card player2ActiveCard;
     public static GameManager Instance
     {
         get
@@ -60,7 +63,7 @@ public class GameManager : MonoBehaviour
         EnemyTurn,
         Minigame1,
         Minigame2,
-        Minigame3,
+     //   Minigame3,
         Showdown,
         Victory,
         Lose
@@ -100,9 +103,9 @@ public class GameManager : MonoBehaviour
             case Gamestate.Minigame2:
                 SceneManager.LoadScene("Scenes/MinigameTest2");
                 break;
-            case Gamestate.Minigame3:
-                SceneManager.LoadScene("Scenes/MinigameTest3");
-                break;
+          //  case Gamestate.Minigame3:
+           //     SceneManager.LoadScene("Scenes/MinigameTest3");
+           //     break;
             case Gamestate.Showdown:
                 SceneManager.LoadScene("Scenes/Showdown");
                 break;
@@ -199,11 +202,11 @@ public class GameManager : MonoBehaviour
     }
     public string getVictor()
     {
-
         return victor;
     }
     public void setVictor(string victor)
     {
         this.victor = victor;
     }
+    
 }

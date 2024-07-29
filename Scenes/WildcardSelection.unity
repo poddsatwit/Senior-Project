@@ -171,6 +171,7 @@ MonoBehaviour:
   nextCard: {fileID: 1278229349}
   prevCard: {fileID: 1574600890}
   selectCard: {fileID: 439649786}
+  backButton: {fileID: 1341175862}
   spriteRenderer1: {fileID: 344134859}
   spriteRenderer2: {fileID: 0}
   spriteRenderer3: {fileID: 0}

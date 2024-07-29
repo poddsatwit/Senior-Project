@@ -21,12 +21,63 @@ public class Showdown : MonoBehaviour
     [SerializeField] private Button selectCard;
     [SerializeField] private Text NoCards;
 
+    private int doubleDmg = 1;
+    private bool reflectDmg = false;
+
     private void Start()
     {
+        reflectDmg = GameManager.Instance.reflectDamage;
+        GameManager.Instance.reflectDamage = false;
         initializePlayers();
+        useCard();
         attackButton.onClick.AddListener(OnAttackButtonClicked);
         endTurnButton.onClick.AddListener(OnEndTurnButtonClicked);
         selectCard.onClick.AddListener(OnselectCardClicked);
+    }
+
+    private void useCard()
+    {
+        if (!currentPlayer.CardActive)
+        {
+            return;
+        }
+        Card card = currentPlayer.Cardlist[currentPlayer.ActiveCardIndex];
+        if (card.id == 1)
+        {
+            currentPlayer.Ammo += 5;
+        }
+        else if (card.id == 2)
+        {
+            currentPlayer.Health += 3;
+        }
+        else if (card.id == 3)
+        {
+            GameManager.Instance.reflectDamage = true;
+        }
+        else if (card.id == 4)
+        {
+            doubleDmg = 2;
+        } 
+        else if (card.id == 5) {
+            PlayerObject otherPlayer = null;
+            if (GameManager.Instance.getPlayerTurn() == 1)
+            {
+                otherPlayer = GameManager.Instance.getPlayer2();
+            } 
+            else
+            {
+                otherPlayer = GameManager.Instance.getPlayer1();
+            }
+            if (otherPlayer.Ammo > 1)
+            {
+                otherPlayer.Ammo--;
+                currentPlayer.Ammo++;
+            } 
+            else
+            {
+                NoCards.text = "Opponent has no caps to commandeer!";
+            }
+        }
     }
 
     private void OnselectCardClicked()
@@ -63,7 +114,7 @@ public class Showdown : MonoBehaviour
             {
                 attack(2);
             }
-
+           
             else if (ChanceDamage <= 91)
             {
                 attack(1);
@@ -78,18 +129,30 @@ public class Showdown : MonoBehaviour
     }
     private void attack(int attPower)
     {
+       attPower = attPower * doubleDmg;
+       doubleDmg = 1;
        Damage.text = currentPlayer.Name + "'s Attack did " + attPower.ToString() + " damage!";
        if(GameManager.Instance.getPlayerTurn() == 1)
         {
             GameManager.Instance.getPlayer2().Health -= attPower;
+            if (reflectDmg)
+            {
+                GameManager.Instance.getPlayer1().Health -= attPower;
+            }
         }
         else
         {
             GameManager.Instance.getPlayer1().Health -= attPower;
+            if (reflectDmg)
+            {
+                GameManager.Instance.getPlayer2().Health -= attPower;
+            }
         }
     }
     private void OnEndTurnButtonClicked()
     {
+        currentPlayer.CardActive = false;
+        currentPlayer.ActiveCardIndex = -1;
         GameManager.Instance.UpdateGameState(GameManager.Gamestate.Showdown);
         if (GameManager.Instance.getPlayerTurn() == 1)
         {
@@ -127,7 +190,13 @@ public class Showdown : MonoBehaviour
     }
     private void checkHealth()
     {
-        if (GameManager.Instance.getPlayerTurn() == 1)
+        // case 1 is a draw
+        if (GameManager.Instance.getPlayer1().Health <= 0 && GameManager.Instance.getPlayer2().Health <= 0)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.Gamestate.Victory);
+            GameManager.Instance.setVictor("DRAW!");
+        } 
+        else if (GameManager.Instance.getPlayerTurn() == 1)
         {
             if(GameManager.Instance.getPlayer2().Health <= 0)
             {
