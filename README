@@ -1,0 +1,45 @@
+Project Title
+Wildcard West 
+
+Overview
+Wildcard West is an indie party game in which players compete in a wild-west setting filled with elements unpredictability. Within this fast-paced game, 
+players engage in a variety of minigames that will test their skills, strategies, and luck. With every minigame, they will earn rewards of coins, which will allow them to purchase ammo for their gun,
+gumballs to heal themselves, and wildcards that will all help them gain a competitive edge. All these items are used in the last match, where players must outwit their fellow players to be the last 
+one standing in the final showdown. 
+
+Motivation
+Main objectives when creating Wildcard West was to create a game that would be enjoyable and allow for a fair amount replay ability. 
+The main way that both objectives were met was our focus on the element of randomness the game has. From the minigames, to the wildcards, 
+to the showdown being randomized to if you could fire the gun successfully, our game had elements with randomness programed in to encourage 
+the feeling that it was all up to chance and that it was your part to try and tip the odds in your favor. This would not only lead to an enjoyable experience, 
+but it would also mean that matches would differ from game to game.
+
+Build Status
+Some of the scripts are old and no longer functional in the final build. The main scripts are the gameManager script as well as the scene manager for every scene which are labeled appropriately based on the scene.
+Some particular scenes have other scripts that control particular elements in the scenes which are labeled appropriately as well. Other code is used indirectly that should be noted like the character classes and
+selection scripts as well as the card database. Note the character database is no longer being used in the final build. The game should function properly with the one sliding puzzle minigame. The memory
+minigame scene was unfinished so will not be included in the final build but can be viewed in the scene section. There is a current issue in which the puzzle may not reshuffle upon completion. If the user gets
+stuck at this point the forfeit button can be used to advance to the next scene. 
+
+Tech/Framework used
+C# was used for all scripting and backend programming. For front end design we used Unity’s design environment made all UI changes in the  Unity editor. We used Visual Studio Code for debugging.
+All visual components like art and backgrounds were created using a combination of Photoshop, Adobe Firefly, DeepAI, A1111 Forge UI, and CivitAI. 
+
+Features
+Highlights to our game include a comprehensive visual style and wildcard effects that help to change the pace and balance of the game. 
+
+Installation
+The necessary files for running the final build of the game only include the ones in the build package like the UnityPlayer.dll, UnityCrashHandler, the data files, and the debug files. If there are any errors
+opening the build, be sure to check that all files are extracted from the build package.
+
+How to Use?
+As outlined in the presentations the game flow is very linear so there should be no point where the user is able to get stuck or lost. All of the buttons on the scenes are direct, meaning you have to click directly
+on the image or word associated with the button. Be sure to also click the wildcard button on the bottom middle of the screen when on the showdown to view the cards in your hand. 
+
+Contributions
+Stephen Podd - Front end and backend design. Debugging, editing, and script implementation. 
+Vinny Nguyen - Art and visual creation. 
+Sean Trainor - Minigame creation and editing
+
+Credits
+Assistance with scripting was provided by ChatGPT.
